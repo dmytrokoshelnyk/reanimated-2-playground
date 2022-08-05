@@ -36,7 +36,6 @@ function DetailsScreen({route, navigation}) {
   const ref = React.useRef();
 
   const mountedAnimated = React.useRef(new Animated.Value(0)).current;
-  const activeIndex = React.useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     animation(1, 300).start();
@@ -60,10 +59,9 @@ function DetailsScreen({route, navigation}) {
   };
 
   const detailsCategories = DetailsCategory;
-  console.log('detailsCategories:', detailsCategories);
   return (
     <View style={[styles.container]}>
-      <View style={{width: '100%', height: 300, zIndex: 0}}>
+      <View style={styles.topContainer}>
         <View style={{zIndex: 1}}>
           <SharedElement id={sharedElementImageId}>
             <Image style={styles.image} source={{uri: imageUrl}} />
@@ -78,17 +76,7 @@ function DetailsScreen({route, navigation}) {
           styles.cardContainer,
           {opacity: mountedAnimated, transform: [{translateY}]},
         ]}>
-        <Transitioning.View
-          ref={ref}
-          transition={transition}
-          style={[
-            {
-              width: '100%',
-              flex: 1,
-              justifyContent: 'center',
-              flexGrow: 1,
-            },
-          ]}>
+        <Transitioning.View ref={ref} transition={transition} style={styles.transitionContainer}>
           {detailsCategories.map((item, index) => {
             return (
               <Card
@@ -123,8 +111,6 @@ DetailsScreen.sharedElements = (route, otherRoute, showing) => {
     subCategory,
     SHARED_ELEMENTS_TYPES.text,
   );
-  console.log('sharedElementImageId2:', sharedElementImageId);
-  console.log('sharedElementTextId2:', sharedElementTextId);
   return [
     {
       id: sharedElementImageId,
@@ -149,6 +135,13 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: 'black',
   },
+  transitionContainer: {
+    width: '100%',
+    flex: 1,
+    justifyContent: 'center',
+    flexGrow: 1,
+  },
+  topContainer: {width: '100%', height: 300, zIndex: 0},
   image: {
     width: '100%',
     height: '100%',
@@ -165,8 +158,6 @@ const styles = StyleSheet.create({
     marginTop: -30,
   },
   card: {
-    // justifyContent: 'flex-start',
-    // flexDirection: 'row',
     padding: 20,
     flexGrow: 1,
     width: '100%',

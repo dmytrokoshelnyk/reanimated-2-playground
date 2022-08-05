@@ -15,7 +15,6 @@ export const CardItem = ({
   imageIndex,
   subCategory,
 }) => {
-  console.log('sharedElementTextId1:', sharedElementTextId);
   return (
     <View style={styles.subCategoriesList} key={imageIndex}>
       <TouchableWithoutFeedback onPress={handleItemClick}>
